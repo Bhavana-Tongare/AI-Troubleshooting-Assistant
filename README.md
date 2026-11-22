@@ -125,5 +125,5 @@ The app opens in your browser at `http://localhost:8501`.
 **Bhavana Tongare**
 
 Email: bhavanatongare@gmail.com
-GitHub: [github.com/Bhavana-Tongare]
-LinkedIn: [linkedin.com/in/Bhavana-Tongare]
+GitHub: github.com/Bhavana-Tongare
+LinkedIn: linkedin.com/in/Bhavana-Tongare
