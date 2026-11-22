@@ -1,4 +1,3 @@
-from google import genai
 from dotenv import load_dotenv
 from retrieve import search 
 from groq import Groq
