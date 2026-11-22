@@ -1,16 +1,21 @@
 import json
+from pathlib import Path
+
 from sklearn.feature_extraction.text import TfidfVectorizer   #TfidfVectorizer converts text into numerical values.
 from sklearn.metrics.pairwise import cosine_similarity
-from pathlib import Path
 
 
 THRESHOLD = 0.20
+
+# Get the folder where retrieve.py is located
 BASE_DIR = Path(__file__).resolve().parent
 
+# Load the knowledge base
 with open(BASE_DIR / "knowledge_base.json", "r", encoding="utf-8") as file:
     kb = json.load(file)
 
-    kb = json.load(file)
+print("Knowledge Base Loaded Successfully:", len(kb), "records")
+
 
     # print("Loaded successfully")
     
