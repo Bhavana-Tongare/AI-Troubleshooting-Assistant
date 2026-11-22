@@ -1,0 +1,132 @@
+[
+  {
+    "id": "KB-001",
+    "issue": "Payment API returning HTTP 500 error",
+    "symptoms": "payment api returns 500, internal server error on payment, checkout failing, payment not going through, transaction failed with server error, customers unable to pay",
+    "diagnostic_checks": [
+      "Review the payment service application logs for stack traces or exceptions around the time the errors started",
+      "Check whether dependencies are reachable: payment database, cache, and the bank or payment gateway",
+      "Check whether a deployment or configuration change happened shortly before the errors began",
+      "Check the monitoring dashboard to see if all requests fail or only some, and since when"
+    ],
+    "known_resolution": "If a recent release caused the errors, roll back to the previous stable version. If a dependency is down, restore it or fail over to the standby. If the cause is unclear, collect log samples and error timestamps and escalate.",
+    "escalation_team": "L3 Application Engineering"
+  },
+  {
+    "id": "KB-002",
+    "issue": "API timeouts or slow response times",
+    "symptoms": "api timeout, request timed out, slow response, gateway timeout 504, page keeps loading, high latency, calls taking too long to respond",
+    "diagnostic_checks": [
+      "Check response times on the monitoring dashboard to see when the slowdown started",
+      "Check whether a downstream service or third-party call is slow or not responding",
+      "Check for slow database queries and database connection pool usage",
+      "Check CPU and memory on the application servers, and for network latency or DNS problems"
+    ],
+    "known_resolution": "Restart the stuck application instance if it is safe to do so. Fix or kill the slow query if the database is the cause. Increase timeout or pool size only with approval. If the delay is in an external service, contact that provider.",
+    "escalation_team": "L3 Application Engineering / Network Team"
+  },
+  {
+    "id": "KB-003",
+    "issue": "Database connection failure or connection pool exhausted",
+    "symptoms": "database connection failed, cannot connect to database, connection pool exhausted, too many connections, unable to acquire connection, db unreachable, connection refused by database",
+    "diagnostic_checks": [
+      "Confirm the database server is running and accepting connections",
+      "Compare current open connections against the configured maximum",
+      "Look for long-running queries or locks that are holding connections",
+      "Verify credentials, network access, and any recent configuration or password changes"
+    ],
+    "known_resolution": "Ask the DBA to terminate blocking or idle sessions if approved. Restart the application to release leaked connections. Review connection pool settings with the DBA. Restart or fail over the database only with DBA approval.",
+    "escalation_team": "Database Administration (DBA)"
+  },
+  {
+    "id": "KB-004",
+    "issue": "Application high memory usage or OutOfMemoryError",
+    "symptoms": "out of memory, java heap space error, high memory usage, memory keeps growing, service keeps restarting, container restarted repeatedly, slow after new release",
+    "diagnostic_checks": [
+      "Check the memory graph to see whether usage grows steadily, which can indicate a memory leak",
+      "Check whether the problem started after a recent deployment",
+      "Check container or pod restart counts and the configured memory limit",
+      "Check for unusually high traffic or very large requests"
+    ],
+    "known_resolution": "Restart the service to restore availability. If the problem began after a release, roll back. Raise a defect with the memory graphs and heap dump for the developers to investigate.",
+    "escalation_team": "L3 Application Engineering / DevOps"
+  },
+  {
+    "id": "KB-005",
+    "issue": "User unable to log in (authentication failure)",
+    "symptoms": "login failed, cannot sign in, invalid username or password, account locked, 401 unauthorized, password reset not working, single sign-on not working",
+    "diagnostic_checks": [
+      "Check whether the account is locked, disabled, or expired",
+      "Check whether one user or many users are affected",
+      "Check the status of the identity provider or single sign-on service",
+      "Check authentication logs for expired tokens or expired certificates"
+    ],
+    "known_resolution": "For a single user, unlock the account or reset the password after verifying identity. If many users are affected, treat it as an incident and escalate with the time it started and the error messages seen.",
+    "escalation_team": "Identity and Access Management (IAM)"
+  },
+  {
+    "id": "KB-006",
+    "issue": "Server disk space full",
+    "symptoms": "disk full, no space left on device, disk usage 100 percent, cannot write to disk, log files very large, application failing to save files",
+    "diagnostic_checks": [
+      "Run df -h to find which filesystem is full",
+      "Run du -sh on the largest directories to find big files, especially old logs",
+      "Check whether log rotation is configured and working",
+      "Check for core dumps, temporary files, or backups left on the disk"
+    ],
+    "known_resolution": "Archive or delete old logs and temporary files according to policy. Fix log rotation so the problem does not return. If growth is genuine, request additional storage.",
+    "escalation_team": "Infrastructure Operations"
+  },
+  {
+    "id": "KB-007",
+    "issue": "Deployment or CI/CD pipeline failure",
+    "symptoms": "pipeline failed, build failed, deployment failed, release stuck, jenkins job error, deployment rolled back, tests failing in pipeline",
+    "diagnostic_checks": [
+      "Open the failed pipeline stage and read the error output",
+      "Identify whether it failed at build, test, or deploy",
+      "Check credentials, artifact repository access, and the health of the target environment",
+      "Compare with the last successful run to see what changed"
+    ],
+    "known_resolution": "Fix the failing step, for example a configuration error, a missing dependency, or an expired credential, then re-run the pipeline. If the deployment is causing production problems, roll back to the last good release.",
+    "escalation_team": "DevOps and Cloud Engineering"
+  },
+  {
+    "id": "KB-008",
+    "issue": "Third-party service failure (SMS, email, or external API)",
+    "symptoms": "sms not delivered, email not sent, third party api returns 503, external provider down, notification not received, intermittent errors from external service",
+    "diagnostic_checks": [
+      "Check the provider's status page for a known outage",
+      "Check whether retries or the backup provider are succeeding",
+      "Check API keys, rate limits, and usage quotas",
+      "Measure how many messages are failing compared to delivered"
+    ],
+    "known_resolution": "If retries or a backup provider succeed, continue monitoring. If the outage continues, contact the provider and queue messages for later delivery where supported. Renew the key or raise the quota if a limit was reached.",
+    "escalation_team": "L2 Application Support / Vendor Management"
+  },
+  {
+    "id": "KB-009",
+    "issue": "VPN or network connectivity problem",
+    "symptoms": "vpn not connecting, cannot reach server, network unreachable, ping fails, dns not resolving, connection timed out, unable to access internal application",
+    "diagnostic_checks": [
+      "Check whether the problem affects one user or many users",
+      "Ping the target and test DNS resolution with nslookup",
+      "Check VPN client status and whether credentials or certificates have expired",
+      "Check for firewall rule changes or a recent network change"
+    ],
+    "known_resolution": "For a single user, reconnect the VPN, flush DNS, or reinstall the client. If many users or a whole site are affected, escalate with affected locations and the start time.",
+    "escalation_team": "Network Operations"
+  },
+  {
+    "id": "KB-010",
+    "issue": "SSL/TLS certificate expired or invalid",
+    "symptoms": "ssl certificate expired, certificate error, your connection is not private, https not working, tls handshake failed, certificate not trusted, secure connection failed",
+    "diagnostic_checks": [
+      "Check the certificate's expiry date in the browser or with an openssl command",
+      "Check that the certificate matches the domain name and includes the full chain",
+      "Check whether the certificate was recently renewed but not installed on all servers or load balancers",
+      "Check the system date and time on the affected server"
+    ],
+    "known_resolution": "Renew the certificate and install it, including the intermediate chain, on every server or load balancer that uses it. Restart or reload the service if required, then verify in a browser.",
+    "escalation_team": "Security Operations / Infrastructure Operations"
+  }
+]
