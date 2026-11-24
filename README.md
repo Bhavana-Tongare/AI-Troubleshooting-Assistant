@@ -13,6 +13,9 @@ Key idea: the AI only answers when a relevant knowledge base entry is found. If 
 3. A similarity threshold check is applied (score >= 0.20).
    - **Match found (score >= 0.20):** the retrieved KB entry and the question are sent to the Groq API (`openai/gpt-oss-20b`). The model generates a structured troubleshooting response, which is displayed in Streamlit.
    - **No match (score < 0.20):** the app shows "Problem not found in Knowledge Base" and asks the user for more details. The Groq API is not called.
+     
+## Live Demo :
+ https://ai-troubleshooting-assistant-f8tykeoboqeri5ggnzrmas.streamlit.app/
 
 ## Tech Stack
 
